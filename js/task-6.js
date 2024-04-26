@@ -7,24 +7,31 @@ createBtn.addEventListener('click', createBoxes);
 destroyBtn.addEventListener('click', destroyBoxes);
 
 function createBoxes() {
-  // Clear the boxes container
   boxes.innerHTML = '';
 
   const amount = input.value;
+  const boxElements = []; 
   let boxSize = 30;
-  let boxMarkup = '';
-
-  for (let i = 0; i < amount; i += 1) {
-    boxMarkup += `<div style="width: ${boxSize}px; height: ${boxSize}px; background-color: ${getRandomHexColor()}"></div>`;
-    boxSize += 10;
-  }
 
   if (amount < 1 || amount > 100) {
     alert('Please enter a valid number between 1 and 100.');
-  } else {
-    boxes.insertAdjacentHTML('beforeend', boxMarkup);
-    input.value = '';
+    return; 
   }
+
+  for (let i = 0; i < amount; i += 1) {
+    const box = document.createElement('div');
+    box.style.width = `${boxSize}px`;
+    box.style.height = `${boxSize}px`;
+    box.style.backgroundColor = getRandomHexColor();
+    boxElements.push(box); 
+    boxSize += 10;
+  }
+
+  boxElements.forEach(box => {
+    boxes.appendChild(box);
+  });
+
+  input.value = ''; 
 }
 
 function destroyBoxes() {
@@ -32,7 +39,5 @@ function destroyBoxes() {
 }
 
 function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215)
-    .toString(16)
-    .padStart(6, 0)}`;
+  return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
 }
