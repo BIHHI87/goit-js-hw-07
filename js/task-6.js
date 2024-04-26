@@ -7,29 +7,22 @@ createBtn.addEventListener('click', createBoxes);
 destroyBtn.addEventListener('click', destroyBoxes);
 
 function createBoxes() {
-  boxes.innerHTML = '';
-
   const amount = input.value;
-  const boxElements = []; 
-  let boxSize = 30;
-
   if (amount < 1 || amount > 100) {
     alert('Please enter a valid number between 1 and 100.');
     return; 
   }
 
+  let boxSize = 30;
+  let boxMarkup = '';
   for (let i = 0; i < amount; i += 1) {
-    const box = document.createElement('div');
-    box.style.width = `${boxSize}px`;
-    box.style.height = `${boxSize}px`;
-    box.style.backgroundColor = getRandomHexColor();
-    boxElements.push(box); 
+    boxMarkup += `<div style="width: ${boxSize}px; height: ${boxSize}px; background-color: ${getRandomHexColor()}"></div>`;
     boxSize += 10;
   }
 
-  boxElements.forEach(box => {
-    boxes.appendChild(box);
-  });
+  boxes.innerHTML = '';
+
+  boxes.insertAdjacentHTML('beforeend', boxMarkup);
 
   input.value = ''; 
 }
